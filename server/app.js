@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
-import { getAllOutcomes, getAllSlotPatterns, getDocuments, getOutcome, getSlotPattern } from './data/access.js'
-import { answerAssistant, explainOutcome, generateChecklist } from './ai.js'
+import { getAllOutcomes, getAllSlotPatterns, getChallan, getDisputeCategories, getDocuments, getOutcome, getRCStatus, getSlotPattern, getTransferDocuments } from './data/access.js'
+import { answerAssistant, explainChallanDispute, explainOutcome, generateChecklist, generateTransferChecklist, routeCitizen } from './ai.js'
 
 const app = express()
 app.use(express.json())
@@ -10,6 +10,8 @@ app.get('/api/health', (_req, res) => res.json({ ok: true, mode: 'mock', aiProvi
 app.get('/api/mock/documents', (req, res) => res.json({ data: getDocuments(req.query.state), mocked: true }))
 app.get('/api/mock/slots', (req, res) => res.json({ data: req.query.state ? getSlotPattern(req.query.state, req.query.city) : getAllSlotPatterns(), mocked: true }))
 app.get('/api/mock/outcomes', (_req, res) => res.json({ data: getAllOutcomes(), mocked: true }))
+app.get('/api/mock/rc', (req, res) => res.json({ data: getRCStatus(req.query.registration), mocked: true }))
+app.get('/api/mock/challan', (req, res) => res.json({ data: getChallan(req.query.number), mocked: true }))
 
 app.post('/api/generate-checklist', async (req, res, next) => {
   const { profile = {} } = req.body
@@ -37,6 +39,22 @@ app.post('/api/assistant-chat', async (req, res, next) => {
     const ai = await answerAssistant({ message, profile, outcome, slotPattern })
     res.json({ ...ai, aiPowered: true, mockedData: true })
   } catch (error) { next(error) }
+})
+app.post('/api/generate-rc-checklist', async (req, res, next) => {
+  const { transferType = 'private-sale' } = req.body
+  const documents = getTransferDocuments(transferType)
+  if (!documents) return res.status(400).json({ error: 'Unknown mock transfer type.' })
+  try { res.json({ ...(await generateTransferChecklist({ transferType, documents })), aiPowered: true, mockedData: true }) } catch (error) { next(error) }
+})
+app.post('/api/explain-challan-dispute', async (req, res, next) => {
+  const challan = getChallan(req.body.number)
+  const category = req.body.category
+  if (!challan || !getDisputeCategories().includes(category)) return res.status(400).json({ error: 'Use a recognised mock challan and dispute category.' })
+  try { res.json({ ...(await explainChallanDispute({ challan, category })), aiPowered: true, mockedData: true }) } catch (error) { next(error) }
+})
+app.post('/api/route-service', async (req, res, next) => {
+  if (!req.body.message?.trim()) return res.status(400).json({ error: 'Please describe what happened.' })
+  try { res.json({ ...(await routeCitizen({ message: req.body.message })), aiPowered: true }) } catch (error) { next(error) }
 })
 
 app.use((error, _req, res, _next) => {

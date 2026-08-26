@@ -1,0 +1,12 @@
+{
+  "_notice": "MOCK DATA — synthetic, not sourced from any real government system.",
+  "transferTypes": {
+    "private-sale": ["Mock RC copy", "Mock buyer and seller identity proofs", "Mock address proof", "Mock transfer form"],
+    "inherited": ["Mock RC copy", "Mock successor declaration", "Mock address proof", "Mock transfer form"],
+    "gifted": ["Mock RC copy", "Mock giver and recipient identity proofs", "Mock address proof", "Mock transfer form"]
+  },
+  "rcStatuses": [
+    { "registration": "MH12DEMO1234", "status": "Active", "vehicle": "Mock private vehicle", "lastUpdated": "Synthetic status · 2 days ago" },
+    { "registration": "DL01DEMO5678", "status": "Transfer pending", "vehicle": "Mock private vehicle", "lastUpdated": "Synthetic status · 5 days ago" }
+  ]
+}
