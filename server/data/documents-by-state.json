@@ -1,0 +1,25 @@
+{
+  "_notice": "MOCK DATA — synthetic, not sourced from any real government system.",
+  "states": {
+    "Maharashtra": {
+      "LL": { "two-wheeler": ["Mock identity proof", "Mock address proof", "Mock age declaration"], "four-wheeler": ["Mock identity proof", "Mock address proof", "Mock age declaration"] },
+      "DL": { "two-wheeler": ["Mock Learner’s Licence", "Mock test appointment slip", "Mock address proof"], "four-wheeler": ["Mock Learner’s Licence", "Mock test appointment slip", "Mock address proof"] },
+      "note": "Demo note: check name and address consistency before submission."
+    },
+    "Delhi": {
+      "LL": { "two-wheeler": ["Mock identity proof", "Mock address proof", "Mock age declaration"], "four-wheeler": ["Mock identity proof", "Mock address proof", "Mock age declaration"] },
+      "DL": { "two-wheeler": ["Mock Learner’s Licence", "Mock test appointment slip", "Mock address proof"], "four-wheeler": ["Mock Learner’s Licence", "Mock test appointment slip", "Mock address proof"] },
+      "note": "Demo note: requirements shown here are illustrative only."
+    },
+    "Karnataka": {
+      "LL": { "two-wheeler": ["Mock identity proof", "Mock address proof", "Mock age declaration"], "four-wheeler": ["Mock identity proof", "Mock address proof", "Mock age declaration"] },
+      "DL": { "two-wheeler": ["Mock Learner’s Licence", "Mock test appointment slip", "Mock address proof"], "four-wheeler": ["Mock Learner’s Licence", "Mock test appointment slip", "Mock address proof"] },
+      "note": "Demo note: these sample documents are not official requirements."
+    },
+    "Tamil Nadu": {
+      "LL": { "two-wheeler": ["Mock identity proof", "Mock address proof", "Mock age declaration"], "four-wheeler": ["Mock identity proof", "Mock address proof", "Mock age declaration"] },
+      "DL": { "two-wheeler": ["Mock Learner’s Licence", "Mock test appointment slip", "Mock address proof"], "four-wheeler": ["Mock Learner’s Licence", "Mock test appointment slip", "Mock address proof"] },
+      "note": "Demo note: confirm official requirements independently in real life."
+    }
+  }
+}

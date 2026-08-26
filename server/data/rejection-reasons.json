@@ -1,0 +1,10 @@
+{
+  "_notice": "MOCK DATA — synthetic, not sourced from any real government system.",
+  "outcomes": {
+    "SUCCESS": { "status": "success", "title": "Practice application accepted", "description": "Your mock application has passed this demo step.", "nextStep": "Check the mock timeline for the next stage." },
+    "DOC_MISMATCH": { "status": "failure", "title": "Document details do not match", "description": "The name or address on a mock document differs from the practice application.", "nextStep": "Use a document with matching details, then submit the practice application again." },
+    "ADDRESS_PROOF": { "status": "failure", "title": "Address proof needs attention", "description": "The mock address proof was marked incomplete or unclear.", "nextStep": "Choose a clear mock address proof and ensure its address matches your application." },
+    "MISSED_SLOT": { "status": "failure", "title": "Practice test window was missed", "description": "The selected mock test time has already passed.", "nextStep": "Choose another mock slot and arrive before the listed time." },
+    "EXPIRED_LL": { "status": "failure", "title": "Learner’s Licence has expired", "description": "The mock Learner’s Licence is no longer valid for this practice flow.", "nextStep": "Restart the mock Learner’s Licence step before booking a Driving Licence test." }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "_notice": "MOCK DATA — synthetic, not sourced from any real government system.",
+  "rtos": [
+    { "state": "Maharashtra", "city": "Pune", "rtoName": "Pune Demo RTO", "typicalWindow": "Mondays around 6 AM", "fillSpeed": "within 10 minutes", "availability": [3, 1, 2, 4, 3, 1, 0] },
+    { "state": "Delhi", "city": "New Delhi", "rtoName": "New Delhi Demo RTO", "typicalWindow": "Wednesdays around 8 AM", "fillSpeed": "within 15 minutes", "availability": [1, 2, 4, 2, 3, 1, 0] },
+    { "state": "Karnataka", "city": "Bengaluru", "rtoName": "Bengaluru Demo RTO", "typicalWindow": "Tuesdays around 7 AM", "fillSpeed": "within 12 minutes", "availability": [2, 4, 2, 1, 3, 1, 0] },
+    { "state": "Tamil Nadu", "city": "Chennai", "rtoName": "Chennai Demo RTO", "typicalWindow": "Thursdays around 6:30 AM", "fillSpeed": "within 20 minutes", "availability": [2, 2, 3, 4, 1, 1, 0] }
+  ]
+}
