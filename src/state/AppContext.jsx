@@ -15,7 +15,7 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ profile, locale }))
     setSavedAt(Date.now())
-  }, [profile])
+  }, [profile, locale])
   const updateProfile = (patch) => setProfile((current) => ({ ...current, ...patch }))
   const reset = () => { localStorage.removeItem(STORAGE_KEY); setProfile(emptyProfile); setLocale('en'); setSavedAt(null) }
   const value = useMemo(() => ({ profile, updateProfile, reset, savedAt, locale, setLocale }), [profile, savedAt, locale])

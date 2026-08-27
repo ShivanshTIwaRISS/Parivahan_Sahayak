@@ -18,7 +18,7 @@ app.post('/api/generate-checklist', async (req, res, next) => {
   const licence = profile.journey === 'fresh' ? 'LL' : 'DL'
   const stateRules = getDocuments(profile.state)
   try {
-    const ai = await generateChecklist({ profile, documents: stateRules?.[licence]?.[profile.vehicle] ?? [] })
+    const ai = await generateChecklist({ profile, documents: stateRules?.[licence]?.[profile.vehicle] ?? [], language: req.body.language })
     res.json({ ...ai, aiPowered: true, mockedData: true })
   } catch (error) { next(error) }
 })
@@ -26,7 +26,7 @@ app.post('/api/explain-outcome', async (req, res, next) => {
   const item = getOutcome(req.body.code || 'SUCCESS')
   if (!item) return res.status(400).json({ error: 'Unknown mock outcome code.' })
   try {
-    const ai = await explainOutcome({ code: req.body.code || 'SUCCESS', profile: req.body.profile ?? {}, outcome: item })
+    const ai = await explainOutcome({ code: req.body.code || 'SUCCESS', profile: req.body.profile ?? {}, outcome: item, language: req.body.language })
     res.json({ ...ai, outcome: item, aiPowered: true, mockedData: true })
   } catch (error) { next(error) }
 })
@@ -36,7 +36,7 @@ app.post('/api/assistant-chat', async (req, res, next) => {
   try {
     const outcome = getOutcome(profile.demoOutcome === 'failure' ? 'DOC_MISMATCH' : 'SUCCESS')
     const slotPattern = getSlotPattern(profile.state, profile.city)
-    const ai = await answerAssistant({ message, profile, outcome, slotPattern })
+    const ai = await answerAssistant({ message, profile, outcome, slotPattern, language: req.body.language })
     res.json({ ...ai, aiPowered: true, mockedData: true })
   } catch (error) { next(error) }
 })
@@ -44,17 +44,17 @@ app.post('/api/generate-rc-checklist', async (req, res, next) => {
   const { transferType = 'private-sale' } = req.body
   const documents = getTransferDocuments(transferType)
   if (!documents) return res.status(400).json({ error: 'Unknown mock transfer type.' })
-  try { res.json({ ...(await generateTransferChecklist({ transferType, documents })), aiPowered: true, mockedData: true }) } catch (error) { next(error) }
+  try { res.json({ ...(await generateTransferChecklist({ transferType, documents, language: req.body.language })), aiPowered: true, mockedData: true }) } catch (error) { next(error) }
 })
 app.post('/api/explain-challan-dispute', async (req, res, next) => {
   const challan = getChallan(req.body.number)
   const category = req.body.category
   if (!challan || !getDisputeCategories().includes(category)) return res.status(400).json({ error: 'Use a recognised mock challan and dispute category.' })
-  try { res.json({ ...(await explainChallanDispute({ challan, category })), aiPowered: true, mockedData: true }) } catch (error) { next(error) }
+  try { res.json({ ...(await explainChallanDispute({ challan, category, language: req.body.language })), aiPowered: true, mockedData: true }) } catch (error) { next(error) }
 })
 app.post('/api/route-service', async (req, res, next) => {
   if (!req.body.message?.trim()) return res.status(400).json({ error: 'Please describe what happened.' })
-  try { res.json({ ...(await routeCitizen({ message: req.body.message })), aiPowered: true }) } catch (error) { next(error) }
+  try { res.json({ ...(await routeCitizen({ message: req.body.message, language: req.body.language })), aiPowered: true }) } catch (error) { next(error) }
 })
 
 app.use((error, _req, res, _next) => {
