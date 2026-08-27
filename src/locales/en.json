@@ -40,5 +40,12 @@
   "dashboardEmpty": "Your saved application will appear here once you begin your licence journey.",
   "dashboardActive": "Driving Licence application",
   "dashboardProgress": "Journey in progress",
-  "ageInvalid": "Please enter a valid age between 18 and 100."
+  "ageInvalid": "Please enter a valid age between 18 and 100.",
+  "learnMore": "Learn what’s real vs mocked.",
+  "understanding": "Understanding your situation…",
+  "continueLeft": "Continue where you left off",
+  "resume": "Resume",
+  "inProgress": "1 application in progress",
+  "tip": "Tip: Keep mock document names and addresses consistent before you continue.",
+  "routeError": "Sahayak could not route this just now. Try again in a moment."
 }
