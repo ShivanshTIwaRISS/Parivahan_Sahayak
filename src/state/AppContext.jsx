@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 const STORAGE_KEY = 'parivahan-sahayak-phase-1'
+const LANGUAGE_SELECTED_KEY = 'parivahan-sahayak-language-selected'
 const emptyProfile = { name: '', age: '', state: '', city: '', vehicle: 'two-wheeler', journey: 'fresh', bookedSlot: '', demoOutcome: 'success' }
 const AppContext = createContext(null)
 
@@ -12,13 +13,15 @@ export function AppProvider({ children }) {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY))?.locale || 'en' } catch { return 'en' }
   })
   const [savedAt, setSavedAt] = useState(() => localStorage.getItem(STORAGE_KEY) ? Date.now() : null)
+  const [hasSelectedLanguage, setHasSelectedLanguage] = useState(() => localStorage.getItem(LANGUAGE_SELECTED_KEY) === 'true')
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ profile, locale }))
     setSavedAt(Date.now())
   }, [profile, locale])
   const updateProfile = (patch) => setProfile((current) => ({ ...current, ...patch }))
+  const selectLanguage = (nextLocale) => { setLocale(nextLocale); localStorage.setItem(LANGUAGE_SELECTED_KEY, 'true'); setHasSelectedLanguage(true) }
   const reset = () => { localStorage.removeItem(STORAGE_KEY); setProfile(emptyProfile); setLocale('en'); setSavedAt(null) }
-  const value = useMemo(() => ({ profile, updateProfile, reset, savedAt, locale, setLocale }), [profile, savedAt, locale])
+  const value = useMemo(() => ({ profile, updateProfile, reset, savedAt, locale, setLocale, hasSelectedLanguage, selectLanguage }), [profile, savedAt, locale, hasSelectedLanguage])
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }
 export const useApp = () => useContext(AppContext)
