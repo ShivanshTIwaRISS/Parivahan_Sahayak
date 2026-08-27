@@ -6,7 +6,7 @@ async function post(path, body) {
 }
 export const generateChecklist = (profile, language) => post('/api/generate-checklist', { profile, language })
 export const explainOutcome = (profile, language) => post('/api/explain-outcome', { profile, language, code: profile.demoOutcome === 'failure' ? 'DOC_MISMATCH' : 'SUCCESS' })
-export const assistantChat = (message, profile, language) => post('/api/assistant-chat', { message, profile, language })
+export const assistantChat = (message, profile, language, history = []) => post('/api/assistant-chat', { message, profile, language, history })
 export const generateRCChecklist = (transferType, language) => post('/api/generate-rc-checklist', { transferType, language })
 export const explainChallanDispute = (number, category, language) => post('/api/explain-challan-dispute', { number, category, language })
 export const routeService = (message, language) => post('/api/route-service', { message, language })

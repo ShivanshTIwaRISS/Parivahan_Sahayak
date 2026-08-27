@@ -70,7 +70,8 @@ function Chat({ initial = '' }) {
     setLoading(true)
     setError('')
     try {
-      const [response] = await Promise.all([assistantChat(content, profile, locale), new Promise(resolve => setTimeout(resolve, 900))])
+      const history = messages.slice(-3).map(({ role, content: text }) => ({ role, content: text }))
+      const [response] = await Promise.all([assistantChat(content, profile, locale, history), new Promise(resolve => setTimeout(resolve, 900))])
       setMessages(previous => [...previous, createMessage('assistant', response.message)])
     } catch (e) { setError(e.message) } finally { setLoading(false) }
   }

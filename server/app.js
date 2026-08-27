@@ -31,13 +31,13 @@ app.post('/api/explain-outcome', async (req, res, next) => {
   } catch (error) { next(error) }
 })
 app.post('/api/assistant-chat', async (req, res, next) => {
-  const { profile = {}, message = '' } = req.body
+  const { profile = {}, message = '', history = [] } = req.body
   if (!message.trim()) return res.status(400).json({ error: 'Please enter a message.' })
-  if (!isSafeParivahanQuestion(message)) return res.json({ message: scopeRedirect(req.body.language), scopeRestricted: true, aiPowered: false })
+  if (!isSafeParivahanQuestion(message, history)) return res.json({ message: scopeRedirect(req.body.language), scopeRestricted: true, aiPowered: false })
   try {
     const outcome = getOutcome(profile.demoOutcome === 'failure' ? 'DOC_MISMATCH' : 'SUCCESS')
     const slotPattern = getSlotPattern(profile.state, profile.city)
-    const ai = await answerAssistant({ message, profile, outcome, slotPattern, language: req.body.language })
+    const ai = await answerAssistant({ message, profile, outcome, slotPattern, language: req.body.language, history })
     res.json({ ...ai, aiPowered: true, mockedData: true })
   } catch (error) { next(error) }
 })

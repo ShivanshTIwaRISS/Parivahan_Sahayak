@@ -13,8 +13,8 @@ Use only the profile and synthetic mock data in the request. Do not state or imp
 Never invent government URLs, phone numbers, fees, policy rules, contacts, or application status. Do not request Aadhaar, PAN, payments, OTPs, or other sensitive information.`
 
 const injectionPattern = /ignore\s+(all\s+)?(previous|prior|your)\s+instructions?|you\s+are\s+now|pretend\s+(to\s+be|you\s+are)|system\s+prompt|reveal\s+(your|the)\s+(instructions|prompt)|jailbreak|roleplay\s+as/i
-const parivahanPattern = /\b(parivahan|sarathi|vahan|driving\s*licen[cs]e|learner'?s?\s*licen[cs]e|\bll\b|\bdl\b|rto|vehicle\s*(rc|registration|transfer|ownership)|registration\s*certificate|e?-?challan|challan|traffic\s*(fine|violation)|helmet|signal\s*jump|hypothecation|noc)\b|लाइसेंस|लाइसेन्स|लर्नर|गाड़ी|गाड़ी|वाहन|आरसी|चालान|ड्राइविंग|परिवहन|नाम\s*ट्रांसफर|ट्रांसफर/i
-const scopeKeywords = /(licence|license|ll|dl|rc|rto|vehicle|car|bike|scooter|registration|transfer|ownership|challan|traffic|helmet|signal|parking|speeding|loan|noc|renewal|learner|गाड़ी|गाड़ी|वाहन|लाइसेंस|लाइसेन्स|लर्नर|चालान|आरसी|ड्राइविंग|ट्रांसफर)/i
+const parivahanPattern = /\b(parivahan|sarathi|vahan|driving\s*licen[cs]e|learner'?s?\s*licen[cs]e|\bll\b|\bdl\b|rto|slot|appointment|booking|test|documents?|status|fees?|vehicle\s*(rc|registration|transfer|ownership)|registration\s*certificate|e?-?challan|challan|traffic\s*(fine|violation)|helmet|signal\s*jump|hypothecation|noc)\b|लाइसेंस|लाइसेन्स|लर्नर|गाड़ी|गाड़ी|वाहन|आरसी|चालान|ड्राइविंग|परिवहन|स्लॉट|बुकिंग|अपॉइंटमेंट|दस्तावेज|टेस्ट|फीस|स्टेटस|नाम\s*ट्रांसफर|ट्रांसफर/i
+const scopeKeywords = /(licence|license|ll|dl|rc|rto|slot|appointment|booking|test|document|status|fee|vehicle|car|bike|scooter|registration|transfer|ownership|challan|traffic|helmet|signal|parking|speeding|loan|noc|renewal|learner|गाड़ी|गाड़ी|वाहन|लाइसेंस|लाइसेन्स|लर्नर|चालान|आरसी|ड्राइविंग|ट्रांसफर|स्लॉट|बुकिंग|अपॉइंटमेंट|टेस्ट|दस्तावेज|फीस|स्टेटस)/i
 
 export function scopeRedirect(language = 'en') {
   return language === 'hi'
@@ -22,15 +22,20 @@ export function scopeRedirect(language = 'en') {
     : 'I can only help with driving licences, RC ownership, and e-challans. What is your Parivahan-related question?'
 }
 
-export function isSafeParivahanQuestion(message = '') {
+const continuationPattern = /^(हाँ|हा|haan|haa|yes|ok|okay|aur|और|btao|बताओ|tell\s+me|continue|फिर|then|कब|कैसे|what\s+next|agla\s+step)\b/i
+const slotTimingPattern = /(slot|appointment|booking|स्लॉट|बुकिंग|अपॉइंटमेंट).*(morning|time|when|सुबह|कब)|(?:morning|सुबह).*(slot|appointment|स्लॉट|बुकिंग)/i
+
+export function isSafeParivahanQuestion(message = '', history = []) {
   const clean = message.trim()
-  return Boolean(clean) && !injectionPattern.test(clean) && parivahanPattern.test(clean)
+  if (!clean || injectionPattern.test(clean)) return false
+  if (parivahanPattern.test(clean)) return true
+  const recent = history.slice(-3).map(item => item?.content || '').join(' ')
+  return continuationPattern.test(clean) && parivahanPattern.test(recent)
 }
 
 function isSafeAssistantOutput(message = '') {
   return !/```|<script|ignore\s+(previous|instructions)|system\s+prompt/i.test(message)
     && message.length <= 700
-    && (!message || scopeKeywords.test(message))
 }
 
 function requireClient() {
@@ -90,11 +95,12 @@ export async function explainOutcome({ code, profile, outcome, language }) {
   })
 }
 
-export async function answerAssistant({ message, profile, outcome, slotPattern, language }) {
-  if (!isSafeParivahanQuestion(message)) return { message: scopeRedirect(language), scopeRestricted: true }
+export async function answerAssistant({ message, profile, outcome, slotPattern, language, history = [] }) {
+  if (!isSafeParivahanQuestion(message, history)) return { message: scopeRedirect(language), scopeRestricted: true }
+  if (slotTimingPattern.test(message)) return { message: language === 'hi' ? 'मॉक स्लॉट के लिए सुबह जल्दी देखना अच्छा रहता है। अपने चुने हुए RTO के लिए उपलब्धता बार-बार जाँचें; यह लाइव सरकारी डेटा नहीं है।' : 'For mock slots, checking early in the morning is usually best. Recheck availability for your selected RTO; this is not live government data.' }
   const response = await structuredResponse({
     instructions: 'Answer the citizen’s question directly and briefly. Ground the answer in the supplied synthetic profile, outcome, and slot pattern. If the data does not answer the question, say that the prototype does not have that information.',
-    input: { citizenMessage: message, profile, mockOutcome: outcome, mockSlotPattern: slotPattern },
+    input: { recentConversation: history.slice(-3), citizenMessage: message, profile, mockOutcome: outcome, mockSlotPattern: slotPattern },
     language,
     schema: { type: 'object', additionalProperties: false, required: ['message'], properties: { message: { type: 'string' } } },
   })
