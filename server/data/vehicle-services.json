@@ -1,12 +1,13 @@
 {
   "_notice": "MOCK DATA — synthetic, not sourced from any real government system.",
   "transferTypes": {
-    "private-sale": ["Mock RC copy", "Mock buyer and seller identity proofs", "Mock address proof", "Mock transfer form"],
-    "inherited": ["Mock RC copy", "Mock successor declaration", "Mock address proof", "Mock transfer form"],
-    "gifted": ["Mock RC copy", "Mock giver and recipient identity proofs", "Mock address proof", "Mock transfer form"]
+    "private-sale": ["RC copy (synthetic example)", "Buyer and seller identity proofs (synthetic examples)", "Address proof (synthetic example)", "Transfer form (mock example)"],
+    "inherited": ["RC copy (synthetic example)", "Successor declaration (mock example)", "Address proof (synthetic example)", "Transfer form (mock example)"],
+    "gifted": ["RC copy (synthetic example)", "Giver and recipient identity proofs (synthetic examples)", "Address proof (synthetic example)", "Transfer form (mock example)"]
   },
   "rcStatuses": [
-    { "registration": "MH12DEMO1234", "status": "Active", "vehicle": "Mock private vehicle", "lastUpdated": "Synthetic status · 2 days ago" },
-    { "registration": "DL01DEMO5678", "status": "Transfer pending", "vehicle": "Mock private vehicle", "lastUpdated": "Synthetic status · 5 days ago" }
+    { "registration": "MH12DEMO1234", "status": "Ready for dispatch", "vehicle": "2019 Maruti Suzuki Baleno · Petrol", "owner": "Aarav Kulkarni", "rto": "Pune RTO (mock)", "lastUpdated": "Mock update · 24 Aug 2026", "stage": 3, "timeline": ["Application received", "Document verification", "RTO officer review", "Ready for dispatch"] },
+    { "registration": "DL01DEMO5678", "status": "Document verification", "vehicle": "2021 Honda Activa 6G · Petrol", "owner": "Meera Sharma", "rto": "Janakpuri RTO (mock)", "lastUpdated": "Mock update · 22 Aug 2026", "stage": 1, "timeline": ["Application received", "Document verification", "RTO officer review", "Ready for dispatch"] },
+    { "registration": "KA03DEMO8899", "status": "RTO officer review", "vehicle": "2020 Hyundai i20 · Petrol", "owner": "Nikhil Rao", "rto": "Koramangala RTO (mock)", "lastUpdated": "Mock update · 25 Aug 2026", "stage": 2, "timeline": ["Application received", "Document verification", "RTO officer review", "Ready for dispatch"] }
   ]
 }

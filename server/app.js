@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import { getAllOutcomes, getAllSlotPatterns, getChallan, getDisputeCategories, getDocuments, getOutcome, getRCStatus, getSlotPattern, getTransferDocuments } from './data/access.js'
-import { answerAssistant, explainChallanDispute, explainOutcome, generateChecklist, generateTransferChecklist, routeCitizen } from './ai.js'
+import { answerAssistant, explainChallanDispute, explainOutcome, generateChecklist, generateTransferChecklist, isSafeParivahanQuestion, routeCitizen, scopeRedirect } from './ai.js'
 
 const app = express()
 app.use(express.json())
@@ -33,6 +33,7 @@ app.post('/api/explain-outcome', async (req, res, next) => {
 app.post('/api/assistant-chat', async (req, res, next) => {
   const { profile = {}, message = '' } = req.body
   if (!message.trim()) return res.status(400).json({ error: 'Please enter a message.' })
+  if (!isSafeParivahanQuestion(message)) return res.json({ message: scopeRedirect(req.body.language), scopeRestricted: true, aiPowered: false })
   try {
     const outcome = getOutcome(profile.demoOutcome === 'failure' ? 'DOC_MISMATCH' : 'SUCCESS')
     const slotPattern = getSlotPattern(profile.state, profile.city)

@@ -1,8 +1,10 @@
 {
   "_notice": "MOCK DATA — synthetic, not sourced from any real government system.",
   "challans": [
-    { "number": "CHL-DEMO-101", "vehicle": "MH12DEMO1234", "amount": "₹500", "reason": "Mock parking violation", "date": "18 Aug 2026", "status": "Open" },
-    { "number": "CHL-DEMO-202", "vehicle": "DL01DEMO5678", "amount": "₹1,000", "reason": "Mock red-light violation", "date": "12 Aug 2026", "status": "Open" }
+    { "number": "CHL-DEMO-101", "vehicle": "MH12DEMO1234", "amount": "₹500", "reason": "Wrong parking", "location": "FC Road, Pune", "source": "Camera-issued (mock)", "date": "18 Aug 2026", "status": "Open" },
+    { "number": "CHL-DEMO-202", "vehicle": "DL01DEMO5678", "amount": "₹1,000", "reason": "Signal jump", "location": "Outer Ring Road, Delhi", "source": "Camera-issued (mock)", "date": "12 Aug 2026", "status": "Open" },
+    { "number": "CHL-DEMO-303", "vehicle": "KA03DEMO8899", "amount": "₹1,500", "reason": "Speeding above posted limit", "location": "Hosur Road, Bengaluru", "source": "Officer-issued (mock)", "date": "21 Aug 2026", "status": "Open" },
+    { "number": "CHL-DEMO-404", "vehicle": "TN09DEMO4455", "amount": "₹1,000", "reason": "No helmet", "location": "Anna Salai, Chennai", "source": "Camera-issued (mock)", "date": "20 Aug 2026", "status": "Open" }
   ],
   "disputeCategories": ["wrong vehicle number", "sold but not transferred", "duplicate entry", "ANPR misread"]
 }
