@@ -47,5 +47,22 @@
   "resume": "Resume",
   "inProgress": "1 application in progress",
   "tip": "Tip: Keep mock document names and addresses consistent before you continue.",
-  "routeError": "Sahayak could not route this just now. Try again in a moment."
+  "routeError": "Sahayak could not route this just now. Try again in a moment.",
+  "saving": "Saving…",
+  "back": "Back",
+  "continue": "Continue",
+  "tryAgain": "Try again",
+  "aiTrouble": "Sahayak is having trouble right now.",
+  "aiTroubleCopy": "Please try again in a moment.",
+  "assistantGreeting": "Hi {name}! Ask me about driving licences, RC ownership or e-challans in English or Hindi.",
+  "assistantEyebrow": "Your personal guide",
+  "assistantTitle": "Ask Sahayak.",
+  "assistantIntro": "Clear answers from your saved mock profile — in English or Hindi.",
+  "sendMessage": "Send message",
+  "openChat": "Open Sahayak chat",
+  "dlDetails": "Details",
+  "dlChecklist": "Checklist",
+  "dlSlot": "Slot",
+  "dlApply": "Apply",
+  "dlResult": "Result"
 }
